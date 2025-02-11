@@ -1,15 +1,15 @@
-'use client';
+"use client";
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import ImageOnly from '@/components/ImageOnly';
 import Filters from '@/components/Filters';
 import ProductListing from '@/components/ProductsListing';
 import { getAllProducts, getProductsByCategory } from '@/sanity/lib/getData';
 
-const ProductsPage = () => {
+const ProductsPageContent = () => {
   const searchParams = useSearchParams();
   const category = searchParams.get('category'); // Get the category from query parameters
   const [products, setProducts] = useState([]);
@@ -43,4 +43,13 @@ const ProductsPage = () => {
   );
 };
 
+const ProductsPage = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ProductsPageContent />
+    </Suspense>
+  );
+};
+
 export default ProductsPage;
+
